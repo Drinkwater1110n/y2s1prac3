@@ -1,27 +1,34 @@
 #include "Reverser.h"
 
-// 利用輔助遞迴函式反轉數字
-int Reverser::reverseDigit(int value) {
-    if (value < 0)
-        return -1;  // 錯誤輸入
-    if (value < 10)
-        return value;  // 基本情況：單一位數直接返回
-
-    // 輔助遞迴 lambda 函式（尾遞迴方式）
-    auto helper = [](auto self, int v, int res) -> int {
-        if (v == 0)
-            return res;
-        return self(self, v / 10, res * 10 + (v % 10));
-    };
-    return helper(helper, value, 0);
+int Reverser::reverseDigit(int number) {
+    if (number < 0)
+        return -1;
+    
+    return reverseDigitHelper(number, 0);
 }
 
-// 利用遞迴反轉字串
-std::string Reverser::reverseString(const std::string &characters) {
-    // 錯誤處理依題目定義可做調整，這裡假設空字串視為有效
-    if (characters.empty())
+std::string Reverser::reverseString(const std::string& str) {
+    if (str.empty())
+        return "ERROR";
+    
+    return reverseStringHelper(str, static_cast<int>(str.size()) - 1);
+}
+
+int Reverser::reverseDigitHelper(int remaining, int result) {
+    if (remaining == 0)
+        return result;
+    
+    int lastDigit = remaining % 10;
+    int nextRemaining = remaining / 10;
+    int nextResult = result * 10 + lastDigit;
+
+    return reverseDigitHelper(nextRemaining, nextResult);
+}
+
+std::string Reverser::reverseStringHelper(const std::string& str, int idx) {
+    if (idx < 0)
         return "";
-    if (characters.size() == 1)
-        return characters;
-    return reverseString(characters.substr(1)) + characters[0];
+
+    char currentChar = str[idx];
+    return std::string(1, currentChar) + reverseStringHelper(str, idx - 1);
 }
