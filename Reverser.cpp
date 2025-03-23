@@ -1,34 +1,21 @@
 #include "Reverser.h"
 
-int Reverser::reverseDigit(int number) {
-    if (number < 0)
-        return -1;
-    
-    return reverseDigitHelper(number, 0);
+int Reverser::reverseDigit(int value) {
+    if (value < 0) return -1; 
+    return reverseDigitHelper(value, 0);
 }
 
-std::string Reverser::reverseString(const std::string& str) {
-    if (str.empty())
-        return "ERROR";
-    
-    return reverseStringHelper(str, static_cast<int>(str.size()) - 1);
+std::string Reverser::reverseString(std::string characters) {
+    if (characters.empty()) return "ERROR"; 
+    return reverseStringHelper(characters, characters.length() - 1);
 }
 
-int Reverser::reverseDigitHelper(int remaining, int result) {
-    if (remaining == 0)
-        return result;
-    
-    int lastDigit = remaining % 10;
-    int nextRemaining = remaining / 10;
-    int nextResult = result * 10 + lastDigit;
-
-    return reverseDigitHelper(nextRemaining, nextResult);
+int Reverser::reverseDigitHelper(int value, int reversed) {
+    if (value == 0) return reversed;
+    return reverseDigitHelper(value / 10, reversed * 10 + value % 10);
 }
 
-std::string Reverser::reverseStringHelper(const std::string& str, int idx) {
-    if (idx < 0)
-        return "";
-
-    char currentChar = str[idx];
-    return std::string(1, currentChar) + reverseStringHelper(str, idx - 1);
+std::string Reverser::reverseStringHelper(std::string &characters, int index) {
+    if (index < 0) return "";
+    return characters[index] + reverseStringHelper(characters, index - 1);
 }
