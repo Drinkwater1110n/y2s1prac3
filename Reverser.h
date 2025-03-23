@@ -10,7 +10,7 @@ public:
 
 private:
     int reverseDigitHelper(int value, int reversed);
-    std::string reverseStringHelper(std::string &characters, int index);
+    std::string reverseStringHelper(std::string& characters, int index);
 };
 
-#endif
+#endif 
